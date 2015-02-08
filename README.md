@@ -5,9 +5,9 @@ Uploads all videos in current directory with metadata you downloaded using youtu
 
 **Written in python with the internetarchive module**
 
-Using internetarchive module version 0.7.9
-Using python version 2.6
-Using youtube-dl version 2015.01.25
+Using internetarchive module version 0.7.9  
+Using python version 2.6  
+Using youtube-dl version 2015.01.25  
 
 Visit https://pypi.python.org/pypi/internetarchive for more information on the internet archive module
 
