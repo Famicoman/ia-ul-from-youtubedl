@@ -25,7 +25,7 @@ Download youtube-dl
 
 In the directory of your choosing, download one or more videos with youtube-dl using --write-info-json
 
-	/youtube-dl -c --write-info-json YOUR_VIDEO_URL_HERE
+	youtube-dl -c --write-info-json YOUR_VIDEO_URL_HERE
 
 Now after this runs, drop the ia-ul-from-youtubedl script into the current directory.  
 **Edit the script to use your secret and access keys from internet archive:** https://archive.org/account/s3.php  
