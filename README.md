@@ -39,13 +39,13 @@ Find a video or playlist of videos you want to download and upload to the intern
 
 Download with youtube-dl
 
-	youtube-dl -c --write-info-json https://www.youtube.com/playlist?list=PLI6R9qwXheraD43gyVcPCwRI8F4NyKZ7F
+	$ youtube-dl -c --write-info-json https://www.youtube.com/playlist?list=PLI6R9qwXheraD43gyVcPCwRI8F4NyKZ7F
 
 Retrieve the ia-ul-from-youtubedl.py script and place it in the directory
 Edit the *secret_key*, *access_key*, and *metadata["subject"]* in ia-ul-from-youtubedl.py
 
 Run the script
 
-	python ia-ul-from-youtube-dl.py
+	$ python ia-ul-from-youtubedl.py
 
 Your items will upload to the internet archive.
