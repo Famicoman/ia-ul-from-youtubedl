@@ -64,14 +64,14 @@ for file in os.listdir(workingDirectory):
 					print("[uploading]")
 					item = ia.Item(sanitized)
 					response = item.upload(file, metadata=metadata, access_key=access_key, secret_key=secret_key)
-					print response
+					print("Server Response: " + str(response))
 					## Check the response. An HTTP 200 is OK
 					if "200" in response:
 						print("Success! Item populating at: " + bcolors.OKGREEN + "https://archive.org/details/" + sanitized + bcolors.ENDC) 
 						print("Moving on to next item in [" + str(timeDelay) +"s]")
 					else:
 						## Server didn't give us a good status, skip this item
-						print(bcolors.FAIL + "[ERROR] Server responded with: " + response + bcolors.ENDC + ". Skipping to next item in [" + str(timeDelay) +"s]")
+						print(bcolors.FAIL + "[ERROR] Server responded with: " + str(response) + bcolors.ENDC + ". Skipping to next item in [" + str(timeDelay) +"s]")
 				else:
 					## Identifier in use, skip this item
 					print(bcolors.FAIL + "[ERROR] Item identifier in use, skipping to next item in [" + str(timeDelay) +"s]" + bcolors.ENDC)
