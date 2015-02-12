@@ -79,11 +79,12 @@ for file in os.listdir(workingDirectory):
 				## Couldn't load the JSON, skip this item
 				print(bcolors.FAIL + "[ERROR] JSON parse failed! Skipping to next item in [" + str(timeDelay) +"s]" + bcolors.ENDC)
 
-			## Sleep for a while between items
-			time.sleep(timeDelay)
 		else:
 			## No corresponding JSON file (Did you use '--write-info-json' in your youtube-dl command?)
 			 print(bcolors.FAIL + "[ERROR] JSON file does not exist! Skipping to next item in [" + str(timeDelay) +"s]" + bcolors.ENDC)
+
+		## Sleep for a while between items
+		time.sleep(timeDelay)
 
 ## All done!
 print("Finished traversing all files in directory!")
