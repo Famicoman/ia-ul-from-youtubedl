@@ -66,7 +66,7 @@ for file in os.listdir(workingDirectory):
 					response = item.upload(file, metadata=metadata, access_key=access_key, secret_key=secret_key)
 					print("Server Response: " + str(response))
 					## Check the response. An HTTP 200 is OK
-					if "200" in response:
+					if "200" in str(response):
 						print("Success! Item populating at: " + bcolors.OKGREEN + "https://archive.org/details/" + sanitized + bcolors.ENDC) 
 						print("Moving on to next item in [" + str(timeDelay) +"s]")
 					else:
