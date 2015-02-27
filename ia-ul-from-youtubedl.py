@@ -25,16 +25,19 @@ class bcolors:
 ## Set up some basic variables
 timeDelay = 10
 workingDirectory = os.getcwd()
-access_key = 'YOUR ACCESS KEY'
-secret_key = 'YOUR SECRET KEY'
+previousBase = ""
+currentBase = ""
+access_key = 'YOUR KEY HERE'
+secret_key = 'YOUR KEY HERE'
 
 ## Let's get into the main loop over the current directory
 print("Using files available in " + workingDirectory)
 for file in os.listdir(workingDirectory):
 	## Make sure we are using only video files
-	if not file.endswith(".info.json") and not file.endswith(".py"):
+	if file.endswith(".info.json") and not file == previousBase:
         	print("Working on file...\n" + bcolors.OKBLUE + file + bcolors.ENDC)
-		commonFile = file.rsplit( ".", 1 )[ 0 ]
+		previousBase, currentBase = currentBase, file
+		commonFile = file.rsplit( ".", 2 )[ 0 ]
 		jsonFile = commonFile  + ".info.json"
 		print("Extracting info from...\n" + bcolors.OKBLUE + jsonFile + bcolors.ENDC)
 		## Now make sure there is a corresponding JSON file
@@ -50,8 +53,8 @@ for file in os.listdir(workingDirectory):
 			## If we have valid JSON, extract some metadata
 			if data:
 				metadata = {}
-				metadata["title"] = str(data["fulltitle"])
-				metadata["description"] = str(data["description"]).replace("\n", "<br>")
+				metadata["title"] = str(data["fulltitle"].encode('ascii', 'ignore'))
+				metadata["description"] = str(data["description"].encode('ascii', 'ignore')).replace("\n", "<br>")
 				metadata["mediatype"] = "movies"
 				metadata["collection"] = "opensource_movies"
 				metadata["subject"] = ["YOUR", "TAGS", "HERE"]
@@ -67,8 +70,18 @@ for file in os.listdir(workingDirectory):
 					print("Server Response: " + str(response))
 					## Check the response. An HTTP 200 is OK
 					if "200" in str(response):
-						print("Success! Item populating at: " + bcolors.OKGREEN + "https://archive.org/details/" + sanitized + bcolors.ENDC) 
-						print("Moving on to next item in [" + str(timeDelay) +"s]")
+						print("Success, adding other items associated with "  + sanitized) 
+						for otherFile in os.listdir(workingDirectory):
+							if otherFile.startswith(commonFile) and not otherFile.endswith(".info.json"):
+								print("Adding file: " + str(otherFile))
+								response = item.upload(otherFile, access_key=access_key, secret_key=secret_key)
+								print("Server Response: " + str(response))
+								if "200" in str(response):
+									print("Done adding  file: " + str(otherFile) + " to item " + str(sanitized))
+								else:
+									print(bcolors.FAIL + "[ERROR] Server responded with: " + str(response) + bcolors.ENDC + ". Skipping to next file for item")
+						print("Success! Item populating at: " + bcolors.OKGREEN + "https://archive.org/details/" + sanitized + bcolors.ENDC)
+                                                print("Moving on to next item in [" + str(timeDelay) +"s]")
 					else:
 						## Server didn't give us a good status, skip this item
 						print(bcolors.FAIL + "[ERROR] Server responded with: " + str(response) + bcolors.ENDC + ". Skipping to next item in [" + str(timeDelay) +"s]")

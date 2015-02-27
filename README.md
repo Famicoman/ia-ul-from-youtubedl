@@ -23,9 +23,10 @@ Download youtube-dl
 	
 	sudo pip install --upgrade youtube_dl
 
-In the directory of your choosing, download one or more videos with youtube-dl using --write-info-json
+In the directory of your choosing, download one or more videos with youtube-dl using AT MINIMUM --write-info-json
+Recommended Archive Team settings and info are available here, http://archiveteam.org/index.php?title=YouTube
 
-	youtube-dl -c --write-info-json YOUR_VIDEO_URL_HERE
+	youtube-dl --title --continue --retries 4 --write-info-json --write-description --write-thumbnail --write-annotations --all-subs --ignore-errors -f bestvideo+bestaudio/best YOUR_VIDEO_URL_HERE
 
 Now after this runs, drop the ia-ul-from-youtubedl script into the current directory.  
 **Edit the script to use your secret and access keys from internet archive:** https://archive.org/account/s3.php  
@@ -39,7 +40,7 @@ Find a video or playlist of videos you want to download and upload to the intern
 
 Download with youtube-dl
 
-	$ youtube-dl -c --write-info-json https://www.youtube.com/playlist?list=PLI6R9qwXheraD43gyVcPCwRI8F4NyKZ7F
+	$ youtube-dl --title --continue --retries 4 --write-info-json --write-description --write-thumbnail --write-annotations --all-subs --ignore-errors -f bestvideo+bestaudio/best https://www.youtube.com/playlist?list=PLI6R9qwXheraD43gyVcPCwRI8F4NyKZ7F
 
 Retrieve the ia-ul-from-youtubedl.py script and place it in the directory
 Edit the *secret_key*, *access_key*, and *metadata["subject"]* in ia-ul-from-youtubedl.py
