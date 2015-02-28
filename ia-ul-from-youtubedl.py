@@ -1,7 +1,8 @@
 # Internet Archive Uploader for videos downloaded through youtube-dl
-# Version 0.1
+# Version 0.2
 # By Mike Dank
 # Usage: python ia-ul-from-youtubedl.py
+# Usage: python ia-ul-from-youtubedl.py --tags "your;tags;here"
 # Must be run directly in the directory where the videos are
 # This scaffolding should easily be adaptable for custom metadata
 
@@ -10,6 +11,8 @@ import json
 import os
 import re
 import time
+import sys
+import getopt
 
 ## Set up some colors for our cli output. Should work on *nix/win
 class bcolors:
@@ -27,8 +30,18 @@ timeDelay = 10
 workingDirectory = os.getcwd()
 previousBase = ""
 currentBase = ""
-access_key = 'YOUR KEY HERE'
-secret_key = 'YOUR KEY HERE'
+access_key = 'YOUR KEY'
+secret_key = 'YOUR KEY'
+myTags = [""]
+
+try:
+	opts, args = getopt.getopt(sys.argv[1:], "t:", ["tags="])
+except getopt.GetoptError as err:
+	print("Error: Please consult usage");
+
+for o, a in opts:
+	if o in ("-t", "--tags"):
+		myTags = a.split(";")
 
 ## Let's get into the main loop over the current directory
 print("Using files available in " + workingDirectory)
@@ -57,7 +70,7 @@ for file in os.listdir(workingDirectory):
 				metadata["description"] = str(data["description"].encode('ascii', 'ignore')).replace("\n", "<br>")
 				metadata["mediatype"] = "movies"
 				metadata["collection"] = "opensource_movies"
-				metadata["subject"] = ["YOUR", "TAGS", "HERE"]
+				metadata["subject"] = myTags
 				print("JSON parse successful! Checking identifier...")
 				## Check to see if our identifier is in use
 				item = ia.get_item(sanitized)
@@ -77,7 +90,7 @@ for file in os.listdir(workingDirectory):
 								response = item.upload(otherFile, access_key=access_key, secret_key=secret_key)
 								print("Server Response: " + str(response))
 								if "200" in str(response):
-									print("Done adding  file: " + str(otherFile) + " to item " + str(sanitized))
+									print("Done adding file: " + str(otherFile) + " to item " + str(sanitized))
 								else:
 									print(bcolors.FAIL + "[ERROR] Server responded with: " + str(response) + bcolors.ENDC + ". Skipping to next file for item")
 						print("Success! Item populating at: " + bcolors.OKGREEN + "https://archive.org/details/" + sanitized + bcolors.ENDC)
